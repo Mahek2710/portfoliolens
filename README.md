@@ -1,4 +1,3 @@
-```md
 # PortfolioLens
 
 A full-stack portfolio analytics engine for NSE-listed stocks. Built to answer one question: **before you put real money in, is this allocation actually any good?**
@@ -24,7 +23,7 @@ PortfolioLens fetches live market data, computes institutional-grade risk metric
 ## Risk metrics computed
 
 | Metric | What it tells you |
-|---|---|
+|---------|------------------|
 | Annualised Return | How much the portfolio grew (or shrank) per year |
 | Volatility | How wildly the portfolio swings day to day |
 | Sharpe Ratio | Return per unit of risk — higher is better |
@@ -37,27 +36,37 @@ PortfolioLens fetches live market data, computes institutional-grade risk metric
 
 ## Tech stack
 
-**Backend**
-- Python 3.13, FastAPI, SQLAlchemy, SQLite
+### Backend
+- Python 3.13
+- FastAPI
+- SQLAlchemy
+- SQLite
 - yfinance for live NSE market data
 - pandas + numpy for all financial calculations
-- JWT authentication with python-jose, bcrypt password hashing
+- JWT authentication with python-jose
+- bcrypt password hashing
 
-**Frontend**
-- React 18, React Router, Recharts
+### Frontend
+- React 18
+- React Router
+- Recharts
 - Axios with JWT interceptor for automatic auth headers
 - CSS variables for light/dark theming
 
-**Testing**
+### Testing
 - pytest with mathematically verified unit tests
 - Known-value tests (e.g. portfolio holding only the benchmark must have beta = 1.0)
-- Edge case coverage: single stock, zero returns, invalid weights, empty portfolio
+- Edge case coverage:
+  - Single stock
+  - Zero returns
+  - Invalid weights
+  - Empty portfolio
 
 ---
 
 ## Project structure
 
-```
+```text
 portfoliolens/
 ├── api/
 │   ├── main.py          # FastAPI app — all endpoints
@@ -81,40 +90,55 @@ portfoliolens/
 
 ## Running locally
 
-**1. Clone the repo**
+### 1. Clone the repo
+
 ```bash
 git clone https://github.com/Mahek2710/portfoliolens.git
 cd portfoliolens
 ```
 
-**2. Set up Python environment**
+### 2. Set up Python environment
+
 ```bash
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**3. Start the backend**
+### 3. Start the backend
+
 ```bash
 uvicorn api.main:app --reload
 ```
-API runs at `http://127.0.0.1:8000`  
-Auto-generated docs at `http://127.0.0.1:8000/docs`
 
-**4. Start the frontend**
+API runs at `http://127.0.0.1:8000`
+
+Auto-generated docs at:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### 4. Start the frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-App runs at `http://localhost:5173`
+
+App runs at:
+
+```text
+http://localhost:5173
+```
 
 ---
 
 ## API endpoints
 
 | Method | Endpoint | Description |
-|---|---|---|
+|---------|-----------|-------------|
 | POST | `/auth/register` | Create account, returns JWT |
 | POST | `/auth/login` | Login, returns JWT |
 | GET | `/auth/me` | Get current user from token |
@@ -143,15 +167,36 @@ Tests use mathematically constructed inputs with known expected outputs — not 
 
 ## Key engineering decisions
 
-**Why SQLite instead of PostgreSQL?** Zero-config for local development. SQLAlchemy ORM means switching to PostgreSQL in production is a one-line change in `database.py`.
+### Why SQLite instead of PostgreSQL?
 
-**Why JWT over sessions?** Stateless — the backend doesn't need to store session state. Token is verified cryptographically on every request. 72-hour expiry keeps users logged in across sessions.
+Zero-config for local development.
 
-**Why yfinance?** Free, no API key, covers all NSE/BSE tickers plus international markets. The `/v1/ticker/validate` endpoint validates any symbol live before adding it to a portfolio.
+SQLAlchemy ORM means switching to PostgreSQL in production is a one-line change in `database.py`.
 
-**Why pandas for financial math?** Industry standard for time-series financial data. The metrics engine uses vectorised operations — no loops over price history except where unavoidable.
+### Why JWT over sessions?
+
+Stateless — the backend doesn't need to store session state.
+
+Token is verified cryptographically on every request.
+
+72-hour expiry keeps users logged in across sessions.
+
+### Why yfinance?
+
+Free, no API key, covers all NSE/BSE tickers plus international markets.
+
+The `/v1/ticker/validate` endpoint validates any symbol live before adding it to a portfolio.
+
+### Why pandas for financial math?
+
+Industry standard for time-series financial data.
+
+The metrics engine uses vectorised operations — no loops over price history except where unavoidable.
 
 ---
 
-Built by [Mahek Hingorani](https://github.com/Mahek2710)
-```
+## Author
+
+Built by **Mahek Hingorani**
+
+GitHub: https://github.com/Mahek2710
